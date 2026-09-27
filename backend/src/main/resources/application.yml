@@ -1,0 +1,58 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:pharmacy-dev-secret-change-me-in-production-32chars-min}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:mem:pharmacy;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: postgres
+  datasource:
+    # Prefer JDBC URL (jdbc:postgresql://...). Neon pooled host recommended.
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/pharmacy}
+    username: ${SPRING_DATASOURCE_USERNAME:${DATABASE_USER:pharmacy}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DATABASE_PASSWORD:pharmacy}}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
