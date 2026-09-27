@@ -4,6 +4,11 @@ Java Spring Boot + React pharmacy storefront: browse medicines, JWT auth, cart, 
 
 > **Not for real medicine sales.** Selling medicines in India needs a valid drug license. This is a demo project with dummy payments.
 
+## Live URLs
+
+- Frontend: https://pharmacy-web-stos.onrender.com
+- Backend API: https://pharmacy-api-ahtx.onrender.com/api/medicines
+
 ## Stack
 
 | Layer | Choice |
@@ -88,6 +93,14 @@ Defaults: `jdbc:postgresql://localhost:5432/pharmacy` / user `pharmacy` / passwo
 3. **Frontend** — Vercel/Netlify; set `VITE_API_URL` to your Render API URL
 4. **Images** — Cloudinary free tier for medicine photos
 5. **Payments** — Razorpay test mode when ready
+
+## Render Blueprint
+
+This repo includes `render.yaml` for repeatable Render setup.
+
+- Backend service uses Docker and health check path `/actuator/health`.
+- Frontend service builds `frontend` and serves `dist`.
+- Secret values in `render.yaml` are set to `sync: false` and must be added in Render dashboard.
 
 ## License
 
