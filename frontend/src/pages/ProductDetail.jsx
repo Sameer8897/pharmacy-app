@@ -7,7 +7,7 @@ import { useCart } from '../context/CartContext'
 
 export default function ProductDetail() {
   const { id } = useParams()
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isAdmin } = useAuth()
   const { addToCart } = useCart()
   const [medicine, setMedicine] = useState(null)
   const [qty, setQty] = useState(1)
@@ -22,6 +22,10 @@ export default function ProductDetail() {
   }, [id])
 
   const handleAdd = async () => {
+    if (isAdmin) {
+      setMsg('Admin account cannot buy medicines')
+      return
+    }
     if (!isAuthenticated) {
       setMsg('Please log in first')
       return
@@ -69,7 +73,7 @@ export default function ProductDetail() {
                 </button>
               </div>
               {msg && <p className="inline-msg">{msg}</p>}
-              <Link to="/cart" className="text-link">Go to cart →</Link>
+              {!isAdmin && <Link to="/cart" className="text-link">Go to cart →</Link>}
             </div>
           </div>
         )}

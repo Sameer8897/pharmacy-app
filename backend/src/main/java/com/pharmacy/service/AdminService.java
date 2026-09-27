@@ -1,8 +1,10 @@
 package com.pharmacy.service;
 
 import com.pharmacy.dto.AdminDashboardResponse;
+import com.pharmacy.dto.AdminCustomerSummary;
 import com.pharmacy.dto.AdminOrderSummary;
 import com.pharmacy.entity.Order;
+import com.pharmacy.entity.User;
 import com.pharmacy.repository.OrderRepository;
 import com.pharmacy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,12 @@ public class AdminService {
     @Transactional(readOnly = true)
     public AdminDashboardResponse getDashboard() {
         List<Order> orders = orderRepository.findAllByOrderByCreatedAtDesc();
+        List<User> customers = userRepository.findByRoleOrderByCreatedAtDesc("CUSTOMER");
+
+        List<AdminCustomerSummary> customerSummaries = customers.stream()
+                .map(this::toCustomerSummary)
+                .collect(Collectors.toList());
+
         List<AdminOrderSummary> recentOrders = orders.stream()
                 .limit(20)
                 .map(this::toOrderSummary)
@@ -35,7 +43,18 @@ public class AdminService {
                 .totalAdmins(userRepository.countByRole("ADMIN"))
                 .totalOrders(orderRepository.count())
                 .totalRevenue(revenue == null ? BigDecimal.ZERO : revenue)
+                .customers(customerSummaries)
                 .recentOrders(recentOrders)
+                .build();
+    }
+
+    private AdminCustomerSummary toCustomerSummary(User user) {
+        return AdminCustomerSummary.builder()
+                .userId(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .phone(user.getPhone())
+                .createdAt(user.getCreatedAt())
                 .build();
     }
 

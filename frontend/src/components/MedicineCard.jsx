@@ -4,12 +4,16 @@ import { useCart } from '../context/CartContext'
 import { useState } from 'react'
 
 export default function MedicineCard({ medicine }) {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, isAdmin } = useAuth()
   const { addToCart } = useCart()
   const [busy, setBusy] = useState(false)
   const [msg, setMsg] = useState('')
 
   const handleAdd = async () => {
+    if (isAdmin) {
+      setMsg('Admin account cannot buy medicines')
+      return
+    }
     if (!isAuthenticated) {
       setMsg('Log in to add items')
       return
@@ -46,7 +50,7 @@ export default function MedicineCard({ medicine }) {
         <p className="medicine-mfr">{medicine.manufacturer}</p>
         <div className="medicine-footer">
           <p className="price">₹{Number(medicine.price).toFixed(2)}</p>
-          <button type="button" className="btn btn-primary btn-sm" onClick={handleAdd} disabled={busy || medicine.stockQuantity < 1}>
+          <button type="button" className="btn btn-primary btn-sm" onClick={handleAdd} disabled={isAdmin || busy || medicine.stockQuantity < 1}>
             {medicine.stockQuantity < 1 ? 'Out of stock' : busy ? 'Adding…' : 'Add to cart'}
           </button>
         </div>

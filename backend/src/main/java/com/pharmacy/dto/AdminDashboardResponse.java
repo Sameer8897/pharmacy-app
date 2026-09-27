@@ -14,5 +14,6 @@ public class AdminDashboardResponse {
     private long totalAdmins;
     private long totalOrders;
     private BigDecimal totalRevenue;
+    private List<AdminCustomerSummary> customers;
     private List<AdminOrderSummary> recentOrders;
 }

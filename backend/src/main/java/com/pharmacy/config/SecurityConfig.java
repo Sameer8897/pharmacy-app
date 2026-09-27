@@ -45,6 +45,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/medicines/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/medicines/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/medicines/**").hasRole("ADMIN")
+                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/cart/**", "/api/orders/**").hasRole("CUSTOMER")
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().sameOrigin();

@@ -22,10 +22,12 @@ export default function Navbar() {
         </nav>
 
         <div className="nav-actions">
-          <Link to="/cart" className="cart-link">
-            Cart
-            {cart.itemCount > 0 && <span className="cart-badge">{cart.itemCount}</span>}
-          </Link>
+          {!isAdmin && (
+            <Link to="/cart" className="cart-link">
+              Cart
+              {cart.itemCount > 0 && <span className="cart-badge">{cart.itemCount}</span>}
+            </Link>
+          )}
           {isAuthenticated ? (
             <>
               <span className="nav-user">{user.name}</span>
