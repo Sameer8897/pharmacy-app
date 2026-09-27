@@ -61,7 +61,7 @@ app:
   admin:
     seed: true
     email: admin@pharmacy.com
-    password: admin123
+    password: Admin@12345
 
 ---
 spring:
