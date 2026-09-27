@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
+import AdminRoute from './components/AdminRoute'
 import Home from './pages/Home'
 import Search from './pages/Search'
 import ProductDetail from './pages/ProductDetail'
@@ -8,6 +9,7 @@ import Checkout from './pages/Checkout'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import OrderHistory from './pages/OrderHistory'
+import AdminDashboard from './pages/AdminDashboard'
 
 export default function App() {
   return (
@@ -39,6 +41,14 @@ export default function App() {
           <ProtectedRoute>
             <OrderHistory />
           </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
         }
       />
     </Routes>

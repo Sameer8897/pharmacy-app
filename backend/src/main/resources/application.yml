@@ -22,6 +22,11 @@ app:
   cors:
     allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
   seed-demo-users: ${SEED_DEMO_USERS:false}
+  admin:
+    seed: ${SEED_ADMIN_USER:false}
+    name: ${ADMIN_NAME:Admin}
+    email: ${ADMIN_EMAIL:}
+    password: ${ADMIN_PASSWORD:}
 
 management:
   endpoints:
@@ -53,6 +58,10 @@ spring:
     show-sql: false
 app:
   seed-demo-users: true
+  admin:
+    seed: true
+    email: admin@pharmacy.com
+    password: admin123
 
 ---
 spring:

@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 
 export default function Navbar() {
-  const { user, isAuthenticated, logout } = useAuth()
+  const { user, isAuthenticated, isAdmin, logout } = useAuth()
   const { cart } = useCart()
 
   return (
@@ -18,6 +18,7 @@ export default function Navbar() {
           <NavLink to="/">Shop</NavLink>
           <NavLink to="/search">Search</NavLink>
           {isAuthenticated && <NavLink to="/orders">Orders</NavLink>}
+          {isAdmin && <NavLink to="/admin">Admin</NavLink>}
         </nav>
 
         <div className="nav-actions">

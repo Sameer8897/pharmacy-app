@@ -22,9 +22,29 @@ public class DataSeeder implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     @Value("${app.seed-demo-users:false}")
     private boolean seedDemoUsers;
+    @Value("${app.admin.seed:false}")
+    private boolean seedAdmin;
+    @Value("${app.admin.email:}")
+    private String adminEmail;
+    @Value("${app.admin.password:}")
+    private String adminPassword;
+    @Value("${app.admin.name:Admin}")
+    private String adminName;
 
     @Override
     public void run(String... args) {
+        if (seedAdmin
+                && adminEmail != null && !adminEmail.isBlank()
+                && adminPassword != null && !adminPassword.isBlank()
+                && !userRepository.existsByEmail(adminEmail.toLowerCase())) {
+            userRepository.save(User.builder()
+                    .name(adminName)
+                    .email(adminEmail.toLowerCase())
+                    .passwordHash(passwordEncoder.encode(adminPassword))
+                    .role("ADMIN")
+                    .build());
+        }
+
         if (seedDemoUsers) {
             if (!userRepository.existsByEmail("admin@pharmacy.com")) {
                 userRepository.save(User.builder()

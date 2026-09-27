@@ -38,4 +38,8 @@ export const orderApi = {
   get: (id) => api.get(`/orders/${id}`),
 }
 
+export const adminApi = {
+  dashboard: () => api.get('/admin/dashboard'),
+}
+
 export default api
