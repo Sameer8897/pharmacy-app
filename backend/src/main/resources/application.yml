@@ -21,6 +21,7 @@ app:
     expiration-ms: ${JWT_EXPIRATION_MS:86400000}
   cors:
     allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+  seed-demo-users: ${SEED_DEMO_USERS:false}
 
 management:
   endpoints:
@@ -50,6 +51,8 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: false
+app:
+  seed-demo-users: true
 
 ---
 spring:

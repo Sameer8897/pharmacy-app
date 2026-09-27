@@ -6,6 +6,7 @@ import com.pharmacy.repository.MedicineRepository;
 import com.pharmacy.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -19,27 +20,31 @@ public class DataSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final MedicineRepository medicineRepository;
     private final PasswordEncoder passwordEncoder;
+    @Value("${app.seed-demo-users:false}")
+    private boolean seedDemoUsers;
 
     @Override
     public void run(String... args) {
-        if (!userRepository.existsByEmail("admin@pharmacy.com")) {
-            userRepository.save(User.builder()
-                    .name("Admin")
-                    .email("admin@pharmacy.com")
-                    .passwordHash(passwordEncoder.encode("admin123"))
-                    .phone("9999999999")
-                    .role("ADMIN")
-                    .build());
-        }
+        if (seedDemoUsers) {
+            if (!userRepository.existsByEmail("admin@pharmacy.com")) {
+                userRepository.save(User.builder()
+                        .name("Admin")
+                        .email("admin@pharmacy.com")
+                        .passwordHash(passwordEncoder.encode("admin123"))
+                        .phone("9999999999")
+                        .role("ADMIN")
+                        .build());
+            }
 
-        if (!userRepository.existsByEmail("customer@pharmacy.com")) {
-            userRepository.save(User.builder()
-                    .name("Demo Customer")
-                    .email("customer@pharmacy.com")
-                    .passwordHash(passwordEncoder.encode("customer123"))
-                    .phone("8888888888")
-                    .role("CUSTOMER")
-                    .build());
+            if (!userRepository.existsByEmail("customer@pharmacy.com")) {
+                userRepository.save(User.builder()
+                        .name("Demo Customer")
+                        .email("customer@pharmacy.com")
+                        .passwordHash(passwordEncoder.encode("customer123"))
+                        .phone("8888888888")
+                        .role("CUSTOMER")
+                        .build());
+            }
         }
 
         if (medicineRepository.count() == 0) {

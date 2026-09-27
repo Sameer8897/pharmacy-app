@@ -7,8 +7,8 @@ export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const [email, setEmail] = useState('customer@pharmacy.com')
-  const [password, setPassword] = useState('customer123')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -32,7 +32,7 @@ export default function Login() {
       <section className="section narrow">
         <div className="section-head">
           <h2>Log in</h2>
-          <p>Demo: customer@pharmacy.com / customer123 · admin@pharmacy.com / admin123</p>
+          <p>Sign in to continue to your account.</p>
         </div>
         <form className="form-panel" onSubmit={onSubmit}>
           <label>
